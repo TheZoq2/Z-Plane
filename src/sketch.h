@@ -1,8 +1,9 @@
 #include <Arduino.h>
+#include <Servo.h>
+
 #include <stdint.h>
 
 #include "cppmReader.h"
-#include "servo.h"
 
 #ifndef H_SKETCH
 #define H_SKETCH
@@ -19,7 +20,8 @@ public:
 private:
     CPPMReader ppmReader;
 
-    Servo* testServo;
+    int oldServoPos;
+    Servo testServo;
 };
 
 #endif

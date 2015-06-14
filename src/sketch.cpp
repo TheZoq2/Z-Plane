@@ -12,16 +12,18 @@ void Sketch::onPPMRise()
 
 void Sketch::setup()
 {
-    testServo = new Servo(10);
-    
-    pinMode(10, OUTPUT);
-    analogWrite(10, 128);
+    testServo.attach(10);
+
+    //testServo.writeMicroseconds(1500);
 }
 
 void Sketch::loop()
 {
-    //ppmReader.calculateChannels();
-    testServo->setValue((ppmReader.getChannelValue(0) * 255));
-    //
-    Serial.println((ppmReader.getChannelValue(0) * 255));
+
+    ppmReader.calculateChannels();
+    int newServoPos = 1000 + 1000 * ppmReader.getChannelValue(2);
+
+    testServo.writeMicroseconds(newServoPos);
+    Serial.println(newServoPos);
 }
+

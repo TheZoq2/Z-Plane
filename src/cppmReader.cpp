@@ -11,6 +11,11 @@ void CPPMReader::onPPMFall()
     cppmPulses[cIndex] = pulseLength;
 
     cIndex++;
+
+    if(cIndex >= PULSE_AMOUNT)
+    {
+        cIndex = 0;
+    }
 }
 
 void CPPMReader::onPPMRise()
