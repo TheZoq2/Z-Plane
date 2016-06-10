@@ -1,13 +1,15 @@
 #include <Arduino.h>
-#include <Servo.h>
+//#include <Servo.h>
 
 #include <stdint.h>
 
 #include "cppmReader.h"
-#include "elevon.h"
-#include "motor.h"
+//#include "elevon.h"
+//#include "motor.h"
 #include "auxSwitch.h"
 #include "config.h"
+#include "AWServo.h"
+#include "DifferentialThrustManager.h"
 
 #ifndef H_SKETCH
 #define H_SKETCH
@@ -28,6 +30,8 @@ const uint16_t ELEVON_MAX = 1800;
 class Sketch
 {
 public:
+    Sketch();
+
     void onPPMFall();
     void onPPMRise();
 
@@ -36,12 +40,20 @@ public:
 private:
     CPPMReader ppmReader;
 
-    Elevon leftElevon;
-    Elevon rightElevon;
+    //Elevon leftElevon;
+    //Elevon rightElevon;
 
-    Motor motor;
+    //Motor motor;
     
     AuxSwitch armSwitch;
+
+    //AWServo testServo;
+    DifferentialThrustManager thrust_manager;
+
+    #ifdef TEENSY_LC
+        static const uint8_t LEFT_MOTOR_PIN = 9;
+        static const uint8_t RIGHT_MOTOR_PIN = 10;
+    #endif
 };
 
 #endif

@@ -17,6 +17,8 @@ void CPPMReader::onPPMFall()
 
     if(cIndex >= PULSE_AMOUNT)
     {
+        digitalWrite(12, HIGH);
+
         cIndex = 0;
     }
 }
