@@ -14,8 +14,10 @@ private:
     static const uint8_t RESOLUTION = 16;
     static const uint8_t FREQUENCY = 50;
 
-    static const uint16_t MIN_VAL = 1800;
-    static const uint16_t MAX_VAL = 7900;
+    //static const uint16_t MIN_VAL = 1800;
+    //static const uint16_t MAX_VAL = 7900;
+    static const uint16_t MAX_VAL = 6553;
+    static const uint16_t MIN_VAL = 3225;
 
     uint8_t pin;
 };

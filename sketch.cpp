@@ -2,7 +2,10 @@
 
 
 Sketch::Sketch() :
-    thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN)
+    thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN),
+    left_aileron(LEFT_AILERON_PIN),
+    right_aileron(RIGHT_AILERON_PIN),
+    elevator(ELEVATOR_PIN)
 {
 }
 
@@ -38,8 +41,13 @@ void Sketch::loop()
     //motor.update(&ppmReader);
     
     thrust_manager.update(ppmReader.getChannelValue(0), ppmReader.getChannelValue(3));
+
+    left_aileron.set_value(1 - ppmReader.getChannelValue(1));
+    right_aileron.set_value(1 - ppmReader.getChannelValue(1));
+
+    elevator.set_value(ppmReader.getChannelValue(2));
     
-    #define PRINT_SERIAL
+    //#define PRINT_SERIAL
     #ifdef PRINT_SERIAL
         Serial.print("0: ");
         Serial.print(ppmReader.getChannelValue(0));

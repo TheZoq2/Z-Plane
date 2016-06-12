@@ -23,6 +23,4 @@ void AWServo::write(float value)
     uint16_t write_value = MIN_VAL + (MAX_VAL - MIN_VAL) * value;
 
     analogWrite(pin, write_value);
-
-    Serial.println(write_value);
 }

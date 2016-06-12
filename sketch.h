@@ -10,6 +10,7 @@
 #include "config.h"
 #include "AWServo.h"
 #include "DifferentialThrustManager.h"
+#include "Rudder.h"
 
 #ifndef H_SKETCH
 #define H_SKETCH
@@ -50,9 +51,18 @@ private:
     //AWServo testServo;
     DifferentialThrustManager thrust_manager;
 
+    Rudder left_aileron;
+    Rudder right_aileron;
+    Rudder elevator;
+
     #ifdef TEENSY_LC
-        static const uint8_t LEFT_MOTOR_PIN = 9;
-        static const uint8_t RIGHT_MOTOR_PIN = 10;
+        static const uint8_t LEFT_MOTOR_PIN = 23;
+        static const uint8_t RIGHT_MOTOR_PIN = 22;
+
+        static const uint8_t LEFT_AILERON_PIN = 16;
+        static const uint8_t RIGHT_AILERON_PIN = 17;
+
+        static const uint8_t ELEVATOR_PIN = 9;
     #endif
 };
 

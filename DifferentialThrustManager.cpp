@@ -9,6 +9,8 @@ DifferentialThrustManager::DifferentialThrustManager(uint8_t left_pin, uint8_t r
 
 void DifferentialThrustManager::update(float throttle, float rudder)
 {
+    throttle = throttle - MIN_THROTTLE_COMMAND;
+
     float left_value = throttle * THROTTLE_SCALE - (rudder - 0.5) * RUDDER_SCALE;
 
     if(left_value > 1.0)
