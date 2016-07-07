@@ -3,8 +3,8 @@
 
 Sketch::Sketch() :
     thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN),
-    left_aileron(LEFT_AILERON_PIN),
-    right_aileron(RIGHT_AILERON_PIN),
+    left_aileron(LEFT_AILERON_PIN, 1, 5, Side::LEFT),
+    right_aileron(RIGHT_AILERON_PIN, 1, 5, Side::RIGHT),
     elevator(ELEVATOR_PIN)
 {
 }
@@ -42,8 +42,10 @@ void Sketch::loop()
     
     thrust_manager.update(ppmReader.getChannelValue(0), ppmReader.getChannelValue(3));
 
-    left_aileron.set_value(1 - ppmReader.getChannelValue(1));
-    right_aileron.set_value(1 - ppmReader.getChannelValue(1));
+    //left_aileron.set_value(1 - ppmReader.getChannelValue(1));
+    //right_aileron.set_value(1 - ppmReader.getChannelValue(1));
+    left_aileron.update(ppmReader);
+    right_aileron.update(ppmReader);
 
     elevator.set_value(ppmReader.getChannelValue(2));
     

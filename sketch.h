@@ -11,6 +11,7 @@
 #include "AWServo.h"
 #include "DifferentialThrustManager.h"
 #include "Rudder.h"
+#include "Aileron.h"
 
 #ifndef H_SKETCH
 #define H_SKETCH
@@ -51,8 +52,8 @@ private:
     //AWServo testServo;
     DifferentialThrustManager thrust_manager;
 
-    Rudder left_aileron;
-    Rudder right_aileron;
+    Aileron left_aileron;
+    Aileron right_aileron;
     Rudder elevator;
 
     #ifdef TEENSY_LC
