@@ -21,14 +21,6 @@ void Sketch::onPPMRise()
 
 void Sketch::setup()
 {
-    //leftElevon.setup(ELEVON_MIN, ELEVON_MAX, Elevon::LEFT, 10, PITCH_CHANNEL, ROLL_CHANNEL);
-    //rightElevon.setup(ELEVON_MIN, ELEVON_MAX, Elevon::RIGHT, 9, PITCH_CHANNEL, ROLL_CHANNEL);
-
-    //leftElevon.setReversed(false);
-
-    armSwitch.setup(ARM_CHANNEL, ARM_LOW_BOUND, ARM_HIGH_BOUND);
-
-    //motor.setup(MOTOR_PIN, MOTOR_CHANNEL, &armSwitch);
 }
 
 void Sketch::loop()
@@ -47,7 +39,7 @@ void Sketch::loop()
     left_aileron.update(ppmReader);
     right_aileron.update(ppmReader);
 
-    elevator.set_value(ppmReader.getChannelValue(2));
+    elevator.set_value(ppmReader.getChannelValue(PITCH_CHANNEL));
     
     //#define PRINT_SERIAL
     #ifdef PRINT_SERIAL
