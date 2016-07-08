@@ -15,7 +15,7 @@ enum Side
 class Aileron 
 {
 public:
-    Aileron(uint8_t pin, uint8_t mainChannel, uint8_t flapChannel, Side side);
+    Aileron(uint8_t pin, Side side);
 
     void update(CPPMReader &ppm_reader);
 private:

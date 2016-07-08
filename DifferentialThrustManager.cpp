@@ -11,9 +11,9 @@ DifferentialThrustManager::DifferentialThrustManager(uint8_t left_pin, uint8_t r
 void DifferentialThrustManager::update(CPPMReader& ppmReader)
 {
     
-    float throttle = ppmReader.getChannelValue(throttleChannel);
-    float rudder = ppmReader.getChannelValue(rudderChannel);
-    float armSwitch = ppmReader.getChannelValue(armChannel);
+    float throttle = ppmReader.getChannelValue(Channel::THROTTLE);
+    float rudder = ppmReader.getChannelValue(Channel::YAW);
+    float armSwitch = ppmReader.getChannelValue(Channel::ARM);
 
     throttle = throttle - MIN_THROTTLE_COMMAND;
 
@@ -57,3 +57,4 @@ void DifferentialThrustManager::update(CPPMReader& ppmReader)
     left_servo.write(left_value);
     right_servo.write(right_value);
 }
+

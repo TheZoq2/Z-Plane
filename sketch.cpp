@@ -3,8 +3,8 @@
 
 Sketch::Sketch() :
     thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN),
-    left_aileron(LEFT_AILERON_PIN, 1, FLAP_CHANNEL, Side::LEFT),
-    right_aileron(RIGHT_AILERON_PIN, 1, FLAP_CHANNEL, Side::RIGHT),
+    left_aileron(LEFT_AILERON_PIN, Side::LEFT),
+    right_aileron(RIGHT_AILERON_PIN, Side::RIGHT),
     elevator(ELEVATOR_PIN)
 {
 }
@@ -39,7 +39,7 @@ void Sketch::loop()
     left_aileron.update(ppmReader);
     right_aileron.update(ppmReader);
 
-    elevator.set_value(ppmReader.getChannelValue(PITCH_CHANNEL));
+    elevator.set_value(ppmReader.getChannelValue(Channel::ELEVATOR));
     
     //#define PRINT_SERIAL
     #ifdef PRINT_SERIAL

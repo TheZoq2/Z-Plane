@@ -1,10 +1,8 @@
 #include "Aileron.h"
 
-Aileron::Aileron(uint8_t pin, uint8_t mainChannel, uint8_t flapChannel, Side side):
+Aileron::Aileron(uint8_t pin, Side side):
     rudder(pin)
 {
-    this->mainChannel = mainChannel;
-    this->flapChannel = flapChannel;
     this->side = side;
 }
 
@@ -12,7 +10,7 @@ void Aileron::update(CPPMReader &ppmReader)
 {
     float flapVal = 0;
     
-    if(ppmReader.getChannelValue(flapChannel) < .5)
+    if(ppmReader.getChannelValue(Channel::AUX1) < .5)
     {
         flapVal = 0.3;
 
@@ -23,7 +21,7 @@ void Aileron::update(CPPMReader &ppmReader)
     }
 
 
-    float val = 1-ppmReader.getChannelValue(mainChannel) + flapVal;
+    float val = 1-ppmReader.getChannelValue(Channel::AILERON) + flapVal;
 
     //TODO: Allow scaling and expo and that kind of fancy stuff
     rudder.set_value(val);

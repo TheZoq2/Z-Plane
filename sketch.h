@@ -1,11 +1,8 @@
 #include <Arduino.h>
-//#include <Servo.h>
 
 #include <stdint.h>
 
 #include "cppmReader.h"
-//#include "elevon.h"
-//#include "motor.h"
 #include "auxSwitch.h"
 #include "config.h"
 #include "AWServo.h"
@@ -15,13 +12,6 @@
 
 #ifndef H_SKETCH
 #define H_SKETCH
-
-const uint8_t ARM_CHANNEL = 5;
-
-const uint8_t ROLL_CHANNEL = 1;
-const uint8_t PITCH_CHANNEL = 2;
-
-const uint8_t FLAP_CHANNEL = 4;
 
 class Sketch
 {

@@ -22,10 +22,6 @@ private:
     AWServo left_servo;
     AWServo right_servo;
 
-    uint8_t throttleChannel = 0;
-    uint8_t rudderChannel = 3;
-    uint8_t armChannel = 5;
-
     bool isArmed;
 };
 #endif

@@ -72,6 +72,10 @@ float CPPMReader::getChannelValue(uint8_t channelID)
 {
     return channels[channelID];
 }
+float CPPMReader::getChannelValue(Channel channel)
+{
+    return getChannelValue((int) channel);
+}
 
 uint8_t CPPMReader::getChannelAmount()
 {

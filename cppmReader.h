@@ -11,6 +11,16 @@
 #define MIN_PULSE 600
 #define PULSE_LENGTH 1000;
 
+enum Channel
+{
+    THROTTLE = 0,
+    YAW = 3,
+    AILERON = 1,
+    ELEVATOR = 2,
+    ARM = 5,
+    AUX1 = 4,
+};
+
 class CPPMReader
 {
 public:
@@ -23,6 +33,7 @@ public:
 
     static uint8_t getChannelAmount();
     float getChannelValue(uint8_t channelID);
+    float getChannelValue(Channel channel);
     uint16_t getPulseValue(uint8_t index);
 
     bool getValuesAreValid();
