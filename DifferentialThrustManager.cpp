@@ -5,11 +5,27 @@ DifferentialThrustManager::DifferentialThrustManager(uint8_t left_pin, uint8_t r
     left_servo(left_pin),
     right_servo(right_pin)
 {
+    isArmed = false;
 }
 
-void DifferentialThrustManager::update(float throttle, float rudder)
+void DifferentialThrustManager::update(CPPMReader& ppmReader)
 {
+    
+    float throttle = ppmReader.getChannelValue(throttleChannel);
+    float rudder = ppmReader.getChannelValue(rudderChannel);
+    float armSwitch = ppmReader.getChannelValue(armChannel);
+
     throttle = throttle - MIN_THROTTLE_COMMAND;
+
+    //handle arming and disarming
+    if(armSwitch < 0.25)
+    {
+        isArmed = false;
+    }
+    else if(throttle < 0)
+    {
+        isArmed = true;
+    }
 
     float left_value = throttle * THROTTLE_SCALE - (rudder - 0.5) * RUDDER_SCALE;
 
@@ -31,6 +47,11 @@ void DifferentialThrustManager::update(float throttle, float rudder)
     else if(right_value < 0.0)
     {
         right_value = 0;
+    }
+
+    if(isArmed == false) 
+    {
+        left_value = right_value = 0;
     }
 
     left_servo.write(left_value);

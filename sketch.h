@@ -26,6 +26,8 @@ const float ARM_HIGH_BOUND = 0.6; //A bit of padding added
 const uint8_t ROLL_CHANNEL = 1;
 const uint8_t PITCH_CHANNEL = 2;
 
+const uint8_t FLAP_CHANNEL = 4;
+
 const uint16_t ELEVON_MIN = 1200;
 const uint16_t ELEVON_MAX = 1800;
 
@@ -62,6 +64,8 @@ private:
 
         static const uint8_t LEFT_AILERON_PIN = 16;
         static const uint8_t RIGHT_AILERON_PIN = 17;
+
+        static const uint8_t BACK_RUDDER_PIN = 10;
 
         static const uint8_t ELEVATOR_PIN = 9;
     #endif

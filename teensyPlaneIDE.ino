@@ -1,4 +1,3 @@
-//#include <Servo.h>
 
 #include "config.h"
 #include "sketch.h"

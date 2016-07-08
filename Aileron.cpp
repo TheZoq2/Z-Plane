@@ -23,7 +23,7 @@ void Aileron::update(CPPMReader &ppmReader)
     }
 
 
-    float val = ppmReader.getChannelValue(1 - mainChannel) + flapVal;
+    float val = 1-ppmReader.getChannelValue(mainChannel) + flapVal;
 
     //TODO: Allow scaling and expo and that kind of fancy stuff
     rudder.set_value(val);
