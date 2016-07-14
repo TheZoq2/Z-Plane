@@ -38,7 +38,8 @@ int16_t bmp085ReadInt(unsigned char address)
     msb = Wire.read();
     lsb = Wire.read();
 
-    return (uint16_t) msb<<8 | lsb;
+    //return (uint16_t) msb<<8 | lsb;
+    return (int16_t) msb<<8 | lsb;
 }
 
 const unsigned char OSS = 3;  // Oversampling Setting
@@ -190,7 +191,7 @@ Sketch::Sketch() :
     rightAileron(RIGHT_AILERON_PIN, Side::RIGHT),
     elevator(ELEVATOR_PIN),
     tailRudder(TAIL_RUDDER_PIN),
-    dropServo(DROP_SERVO_PIN, 0.0, 0.7, [](float channelValue){
+    dropServo(DROP_SERVO_PIN, 0.2, 0.8, [](float channelValue){
             if(channelValue < 0.25)
             {
                 return true;
@@ -212,22 +213,15 @@ void Sketch::setup()
 {
     Wire.begin();
     bmp085Calibration();
-    Serial.println(md);
+    pressureSensor.calibrate();
 }
 
 void Sketch::loop()
 {
     ppmReader.calculateChannels();
-    //int newServoPos = 1000 + 1000 * ppmReader.getChannelValue(2);
-
-    //leftElevon.update(&ppmReader);
-    //rightElevon.update(&ppmReader);
-    //motor.update(&ppmReader);
     
     thrust_manager.update(ppmReader);
 
-    //leftAileron.set_value(1 - ppmReader.getChannelValue(1));
-    //rightAileron.set_value(1 - ppmReader.getChannelValue(1));
     leftAileron.update(ppmReader);
     rightAileron.update(ppmReader);
 
@@ -275,7 +269,7 @@ void Sketch::handleAltimeter()
             short temperature = bmp085GetTemperature(bmp085ReadUT());
             long pressure = bmp085GetPressure(bmp085ReadUP());
 
-            float altitude = (float)44330 * (1-pow(((float)pressure/p0), 0.190295));
+            float altitude = this->pressureSensor.getAltitude();
             int8_t altInt = (int16_t) (altitude - alt0);
 
             //TODO: Remove
@@ -292,7 +286,7 @@ void Sketch::handleAltimeter()
             short temperature = bmp085GetTemperature(bmp085ReadUT());
             long pressure = bmp085GetPressure(bmp085ReadUP());
 
-            float altitude = (float)44330 * (1-pow(((float)pressure/p0), 0.190295));
+            float altitude = this->pressureSensor.getAltitude();
             alt0 = altitude;
 
             Serial.println(alt0);

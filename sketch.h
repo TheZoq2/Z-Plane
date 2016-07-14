@@ -12,6 +12,7 @@
 #include "Rudder.h"
 #include "Aileron.h"
 #include "BoolServo.h"
+#include "PressureSensor.h"
 
 #ifndef H_SKETCH
 #define H_SKETCH
@@ -51,6 +52,7 @@ private:
     uint8_t currentAddress = 0;
     uint8_t alt0 = 0;
 
+    PressureSensor pressureSensor;
     #ifdef TEENSY_LC
         static const uint8_t LEFT_MOTOR_PIN = 23;
         static const uint8_t RIGHT_MOTOR_PIN = 22;
