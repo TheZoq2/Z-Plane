@@ -1,9 +1,11 @@
 #include "Aileron.h"
 
 Aileron::Aileron(uint8_t pin, Side side):
-    rudder(pin)
+    servo(pin)
 {
     this->side = side;
+
+    servo.setCmdLimits(-0.2, 1.2);
 }
 
 void Aileron::update(CPPMReader &ppmReader)
@@ -24,5 +26,5 @@ void Aileron::update(CPPMReader &ppmReader)
     float val = 1-ppmReader.getChannelValue(Channel::AILERON) + flapVal;
 
     //TODO: Allow scaling and expo and that kind of fancy stuff
-    rudder.set_value(val);
+    servo.write(val);
 }

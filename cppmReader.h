@@ -19,6 +19,8 @@ enum Channel
     ELEVATOR = 2,
     ARM = 5,
     AUX1 = 4,
+    AUX2 = 6,
+    AUX3 = 7,
 };
 
 class CPPMReader

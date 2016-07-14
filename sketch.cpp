@@ -3,16 +3,22 @@
 
 Sketch::Sketch() :
     thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN),
-    left_aileron(LEFT_AILERON_PIN, Side::LEFT),
-    right_aileron(RIGHT_AILERON_PIN, Side::RIGHT),
-    elevator(ELEVATOR_PIN)
+    leftAileron(LEFT_AILERON_PIN, Side::LEFT),
+    rightAileron(RIGHT_AILERON_PIN, Side::RIGHT),
+    elevator(ELEVATOR_PIN),
+    tailRudder(TAIL_RUDDER_PIN),
+    dropServo(DROP_SERVO_PIN, 0.0, 0.7, [](float channelValue){
+            if(channelValue < 0.25)
+            {
+                return true;
+            }
+            return false;})
 {
 }
 
 void Sketch::onPPMFall()
 {
     ppmReader.onPPMFall();
-
 }
 void Sketch::onPPMRise()
 {
@@ -34,23 +40,63 @@ void Sketch::loop()
     
     thrust_manager.update(ppmReader);
 
-    //left_aileron.set_value(1 - ppmReader.getChannelValue(1));
-    //right_aileron.set_value(1 - ppmReader.getChannelValue(1));
-    left_aileron.update(ppmReader);
-    right_aileron.update(ppmReader);
+    //leftAileron.set_value(1 - ppmReader.getChannelValue(1));
+    //rightAileron.set_value(1 - ppmReader.getChannelValue(1));
+    leftAileron.update(ppmReader);
+    rightAileron.update(ppmReader);
 
     elevator.set_value(ppmReader.getChannelValue(Channel::ELEVATOR));
+    tailRudder.set_value(ppmReader.getChannelValue(Channel::YAW));
+
+
+    dropServo.update(ppmReader.getChannelValue(Channel::AUX2));
+
     
+    handleAltimeter();
+
     //#define PRINT_SERIAL
     #ifdef PRINT_SERIAL
-        Serial.print("0: ");
-        Serial.print(ppmReader.getChannelValue(0));
-        Serial.print("  1: ");
-        Serial.print(ppmReader.getChannelValue(1));
-        Serial.print("  2: ");
-        Serial.print(ppmReader.getChannelValue(2));
-        Serial.print("  3: ");
-        Serial.println(ppmReader.getChannelValue(3));
+        for (uint8_t i = 0; i < 8; ++i) {
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.print(ppmReader.getChannelValue(i));
+        }
+        Serial.println(";");
     #endif
 }
 
+void Sketch::handleAltimeter()
+{
+    float dropChannel = ppmReader.getChannelValue(Channel::AUX2);
+    float configChannel = ppmReader.getChannelValue(Channel::AUX3);
+
+    if(altimeterState == BUSY)
+    {
+        //Check if the inputs are back to normal
+        if(dropChannel < 0.3 && std::abs(configChannel) - 0.5 < 0.1)
+        {
+            altimeterState = IDLE;
+        }
+    }
+    else
+    {
+        if(dropChannel > 0.3)
+        {
+            altimeterState = BUSY;
+
+            //TODO: Remove
+            Serial.println("Bomb drop");
+        }
+        
+        if(configChannel < 0.3)
+        {
+            altimeterState = BUSY;
+            Serial.println("Set zero");
+        }
+        else if(configChannel > 0.7)
+        {
+            altimeterState = BUSY;
+            Serial.println("memdump");
+        }
+    }
+}

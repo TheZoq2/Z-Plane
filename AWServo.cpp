@@ -11,16 +11,22 @@ AWServo::AWServo(uint8_t pin)
 
 void AWServo::write(float value)
 {
-    if(value > 1.0f)
+    if(value > maxCmd)
     {
-        value = 1.0f;
+        value = maxCmd;
     }
-    else if(value < 0.0f)
+    else if(value < minCmd)
     {
-        value = 0.0f;
+        value = minCmd;
     }
 
     uint16_t write_value = MIN_VAL + (MAX_VAL - MIN_VAL) * value;
 
     analogWrite(pin, write_value);
+}
+
+void AWServo::setCmdLimits(float min, float max)
+{
+    this->minCmd = min;
+    this->maxCmd = max;
 }

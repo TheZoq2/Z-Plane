@@ -3,7 +3,7 @@
 
 #include <cinttypes>
 
-#include "Rudder.h"
+#include "AWServo.h"
 #include "cppmReader.h"
 
 enum Side
@@ -19,7 +19,7 @@ public:
 
     void update(CPPMReader &ppm_reader);
 private:
-    Rudder rudder;
+    AWServo servo;
     
     uint8_t mainChannel;
     uint8_t flapChannel;
