@@ -2,6 +2,9 @@
 #include "config.h"
 #include "sketch.h"
 
+#include <EEPROM.h>
+#include <Wire.h>
+
 #ifdef TEENSY_LC
     #define PPM_INTERRUPT_PIN 2
     #define PPM_INTERRUPT_ID 2

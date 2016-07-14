@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <EEPROM.h>
 
 #include <stdint.h>
 #include <cmath>
@@ -46,6 +47,9 @@ private:
     BoolServo dropServo;
 
     AltimeterState altimeterState = BUSY;
+
+    uint8_t currentAddress = 0;
+    uint8_t alt0 = 0;
 
     #ifdef TEENSY_LC
         static const uint8_t LEFT_MOTOR_PIN = 23;
