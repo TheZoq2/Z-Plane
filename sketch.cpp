@@ -2,6 +2,7 @@
 
 #include <Wire.h>
 
+#ifdef CARGOPLANE
 Sketch::Sketch() :
     thrust_manager(LEFT_MOTOR_PIN, RIGHT_MOTOR_PIN),
     leftAileron(LEFT_AILERON_PIN, Side::LEFT),
@@ -16,6 +17,15 @@ Sketch::Sketch() :
             return false;})
 {
 }
+#endif
+
+#ifdef ICE_MACHINE
+Sketch::Sketch() : 
+    motor(MOTOR_PIN),
+    servo(SERVO_PIN)
+{
+}
+#endif
 
 void Sketch::onPPMFall()
 {
@@ -31,13 +41,17 @@ void Sketch::setup()
     pinMode(13, OUTPUT);
 
     Wire.begin();
+
+#ifdef CARGOPLANE
     pressureSensor.calibrate();
+#endif
 }
 
 void Sketch::loop()
 {
     ppmReader.calculateChannels();
     
+#ifdef CARGOPLANE
     thrust_manager.update(ppmReader);
 
     leftAileron.update(ppmReader);
@@ -50,6 +64,18 @@ void Sketch::loop()
     dropServo.update(ppmReader.getChannelValue(Channel::AUX2));
 
     handleAltimeter();
+#endif
+
+#ifdef ICE_MACHINE
+    float motor_command = 0;
+    if(ppmReader.getChannelValue(Channel::ARM) < 0.5)
+    {
+        motor_command = ppmReader.getChannelValue(Channel::THROTTLE);
+    }
+
+    servo.set_value(ppmReader.getChannelValue(Channel::YAW));
+    motor.set_value(motor_command);
+#endif
 
     //#define PRINT_SERIAL
     #ifdef PRINT_SERIAL
@@ -62,6 +88,7 @@ void Sketch::loop()
     #endif
 }
 
+#ifdef CARGOPLANE
 void Sketch::handleAltimeter()
 {
     float dropChannel = ppmReader.getChannelValue(Channel::AUX2);
@@ -112,3 +139,4 @@ void Sketch::handleAltimeter()
         }
     }
 }
+#endif

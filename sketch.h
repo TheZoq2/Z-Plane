@@ -17,6 +17,9 @@
 #ifndef H_SKETCH
 #define H_SKETCH
 
+#define ICE_MACHINE
+//#define CARGOPLANE
+
 enum AltimeterState
 {
     BUSY,
@@ -38,6 +41,7 @@ private:
 
     CPPMReader ppmReader;
 
+#ifdef CARGOPLANE
     DifferentialThrustManager thrust_manager;
 
     Aileron leftAileron;
@@ -53,6 +57,7 @@ private:
     uint8_t alt0 = 0;
 
     PressureSensor pressureSensor;
+
     #ifdef TEENSY_LC
         static const uint8_t LEFT_MOTOR_PIN = 23;
         static const uint8_t RIGHT_MOTOR_PIN = 22;
@@ -66,6 +71,15 @@ private:
 
         static const uint8_t DROP_SERVO_PIN = 6;
     #endif
+#endif
+
+#ifdef ICE_MACHINE
+    Rudder servo;
+    Rudder motor;
+
+    static const uint8_t SERVO_PIN = 9;
+    static const uint8_t MOTOR_PIN = 10;
+#endif
 };
 
 #endif
